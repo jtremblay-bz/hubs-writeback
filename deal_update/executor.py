@@ -59,7 +59,7 @@ def plan(prop: dict, edits: dict | None, fresh: dict | None, today: date, now: d
                             "current": norm(current)[:160]})
             continue
         if f == "blitzy_activity_log":
-            stamp = f"(owner-approved in Slack, {now:%m/%d})"
+            stamp = f"(owner-approved in Deal Update, {now:%m/%d})"
             lines = [(ln.rstrip() + " " + stamp) if ln.strip().startswith("Update:") else ln
                      for ln in v.strip().splitlines()]
             entry = "\n".join(lines).strip()
