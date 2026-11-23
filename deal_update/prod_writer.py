@@ -104,7 +104,8 @@ def write_deal(deal_id: str, values: dict[str, str]) -> dict:
     undo_path = None
     before: dict = {}
     if props:
-        before = _call("GET", f"/crm/v3/objects/deals/{deal_id}?properties=" + ",".join(props))["properties"]
+        got = _call("GET", f"/crm/v3/objects/deals/{deal_id}?properties=" + ",".join(props))["properties"]
+        before = {k: got.get(k) for k in props}      # only the fields we change; HubSpot also returns read-only ones (createdate...)
         try:                                     # a local copy where the disk lasts; the durable copy rides on the decision record
             UNDO.mkdir(parents=True, exist_ok=True)
             undo_path = UNDO / f"{deal_id}-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}.json"
